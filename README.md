@@ -1,4 +1,4 @@
-# NextJS possible cache issue repo
+# NextJS cache issue repo
 
 `next@14.1.2-canary.3`.
 
