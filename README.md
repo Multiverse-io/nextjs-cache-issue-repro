@@ -100,8 +100,8 @@ The key logic is
   any external APIs.
 * The comment above
   [this LOC](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302)
-  seems to suggest that some unintended behavior might unintentionally have
-  snuck into the logic at some point.
+  seems to suggest that some unintended behavior might have snuck into the logic
+  at some point.
 
 ## How to clear the fetch cache
 
