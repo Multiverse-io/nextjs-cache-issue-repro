@@ -10,6 +10,24 @@ subsequent calls to `fetch` in the page rendering code do not use the `fetch`
 cache unless the `cache: 'force-cache'` option is explicitly passed or the
 `next: { revalidate: n }` option is passed for `n > 0`.
 
+## Environment information
+
+```
+Operating System:
+  Platform: darwin
+  Arch: arm64
+  Version: Darwin Kernel Version 21.2.0: Sun Nov 28 20:28:41 PST 2021; root:xnu-8019.61.5~1/RELEASE_ARM64_T6000
+Binaries:
+  Node: 21.6.2
+  npm: 10.2.4
+Relevant Packages:
+  next: 14.1.2-canary.3
+  react: 18.2.0
+  react-dom: 18.2.0
+Next.js Config:
+  output: N/A
+```
+
 ## Why is this unexpected?
 
 * Docs suggest that `cache: 'force-cache'` is the default for `fetch`
