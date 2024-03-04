@@ -3,9 +3,36 @@
 A NextJS app for reproducing a caching issue with `fetch`. Runs on
 `next@14.1.2-canary.3`.
 
-## Instructions
+## Issue summary
 
-### 1. Initial setup (no cookies)
+If a `page.jsx` file makes a call to `cookies()` from `"next/headers"`,
+subsequent calls to `fetch` in the page rendering code do not use the `fetch`
+cache unless the `cache: 'force-cache'` option is explicitly passed or the
+`next: { revalidate: n }` option is passed for `n > 0`.
+
+## Why is this unexpected?
+
+* Docs suggest that `cache: 'force-cache'` is the default for `fetch`
+  (see [here](https://github.com/vercel/next.js/blob/e9862a80f8102070dfc0c1226e11f0e97a90bf0a/docs/02-app/02-api-reference/04-functions/fetch.mdx#L16)),
+  but section 3 above shows that `fetch` can behave differently when this option is set.
+* If a page accesses cookies during SSR, it seems counterintuitive that this
+  should turn off caching for any `fetch` calls that its rendering code makes to
+  any external APIs.
+* The comment above
+  [this LOC](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302)
+  seems to suggest that some unintended behavior might have snuck into the logic
+  at some point. (I have observed the same issue on 14.0 and 14.1 releases,
+  for context.)
+
+## Why does this happen?
+
+The key logic is
+* [staticGenerationStore.revalidate = 0](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302), and
+* [staticGenerationStore.revalidate === 0](https://github.com/vercel/next.js/blob/e9862a80f8102070dfc0c1226e11f0e97a90bf0a/packages/next/src/server/lib/patch-fetch.ts#L342).
+
+## Repro instructions
+
+### 1. Initial setup (no call to `cookies` in page render code)
 
 #### Console 1
 
@@ -83,26 +110,6 @@ Now in console 3 run `curl http://localhost:3000/test`.
 
 The cache is used (i.e. no GET requests are made to `/foo`), even with the call
 to `cookies()` in `page.jsx`.
-
-## Why does this happen?
-
-The key logic is
-* [staticGenerationStore.revalidate = 0](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302), and
-* [staticGenerationStore.revalidate === 0](https://github.com/vercel/next.js/blob/e9862a80f8102070dfc0c1226e11f0e97a90bf0a/packages/next/src/server/lib/patch-fetch.ts#L342).
-
-## Why is this unexpected?
-
-* Docs suggest that `cache: 'force-cache'` is the default for `fetch`
-  (see [here](https://github.com/vercel/next.js/blob/e9862a80f8102070dfc0c1226e11f0e97a90bf0a/docs/02-app/02-api-reference/04-functions/fetch.mdx#L16)),
-  but section 3 above shows that `fetch` can behave differently when this option is set.
-* If a page accesses cookies during SSR, it seems counterintuitive that this
-  should turn off caching for any `fetch` calls that its rendering code makes to
-  any external APIs.
-* The comment above
-  [this LOC](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302)
-  seems to suggest that some unintended behavior might have snuck into the logic
-  at some point. (I have observed the same issue on 14.0 and 14.1 releases,
-  for context.)
 
 ## How to clear the fetch cache
 
