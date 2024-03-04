@@ -14,6 +14,9 @@ npm run dev
 
 #### Console 2
 
+Start an HTTP server on localhost:8080 that echos any requests received. This
+server stands in for (e.g.) an external API called by the page rendering code.
+
 ```sh
 node ./echo.js
 ```
@@ -32,13 +35,31 @@ GET request to `/foo` (indicating that the second request was cached).
 On any additional run of `curl http://localhost:3000/test`, no requests should
 be made to `/foo` (indicating again the use of the cache).
 
-### 2. With cookies() call in page.tsx
+### 2. With cookies() call in page.jsx
 
 Edit `app/test/page.jsx` and uncomment the call to `cookies()`.
 
-Now when `curl http://localhost:3000/test` is run, console 2 should show two
+#### Expected result
+
+Now when `curl http://localhost:3000/test` is run, console 2 should show **two**
 GET requests being made to `/foo`. This indicates that the cache is not being
 used.
+
+### 3. With `force-cache` option set
+
+With the call to `cookies()` still uncommented, replace the call to `fetch`
+in `app/test/page.jsx` with
+
+```javascript
+await fetch("http://localhost:8080/foo", { method: "GET", forceCache: true })
+```
+
+Now in console 3 run `curl http://localhost:3000/test`.
+
+#### Expected result
+
+The cache is used (i.e. no GET requests are made to `/foo`), even with the call
+to `cookies()` in `page.jsx`.
 
 ### How to clear the fetch cache
 
@@ -46,9 +67,32 @@ used.
 rm -rf .next/cache/fetch-cache/
 ```
 
+### 4. With `next: { revalidate: 999}` set
+
+With the call to `cookies()` still uncommented, replace the call to `fetch`
+in `app/test/page.jsx` with
+
+```javascript
+await fetch("http://localhost:8080/foo", { method: "GET", next: { revalidate: 999} })
+```
+
+Now in console 3 run `curl http://localhost:3000/test`.
+
+#### Expected result
+
+The cache is used (i.e. no GET requests are made to `/foo`), even with the call
+to `cookies()` in `page.jsx`.
+
 ## Why does this happen?
 
 The key logic is
-[staticGenerationStore.revalidate = 0](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302)
-and
-[staticGenerationStore.revalidate === 0](https://github.com/vercel/next.js/blob/e9862a80f8102070dfc0c1226e11f0e97a90bf0a/packages/next/src/server/lib/patch-fetch.ts#L342).
+* [staticGenerationStore.revalidate = 0](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302), and
+* [staticGenerationStore.revalidate === 0](https://github.com/vercel/next.js/blob/e9862a80f8102070dfc0c1226e11f0e97a90bf0a/packages/next/src/server/lib/patch-fetch.ts#L342).
+
+## Why is this unexpected?
+
+* Docs suggest that `cache: force-cache` is the default for `fetch`, but section
+  3 above shows that `fetch` can behave differently when this option is set.
+* If a page accesses cookies during SSR, it seems counterintuitive that this
+  should turn of caching for any `fetch` calls that its rendering code makes to
+  any external APIs.

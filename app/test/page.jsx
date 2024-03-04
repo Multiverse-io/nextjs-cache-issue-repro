@@ -2,7 +2,7 @@ import { cookies } from "next/headers"
 
 export default async () => {
   // uncomment this and the request will no longer be cached
-  // cookies()
+  cookies()
 
   // make the request two times so we can clearly see that it's not being cached
   // even when the page is loaded for the first time and the cache starts empty.
