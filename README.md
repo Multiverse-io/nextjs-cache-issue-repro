@@ -101,7 +101,8 @@ The key logic is
 * The comment above
   [this LOC](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302)
   seems to suggest that some unintended behavior might have snuck into the logic
-  at some point.
+  at some point. (I have observed the same issue on 14.0 and 14.1 releases,
+  for context.)
 
 ## How to clear the fetch cache
 
