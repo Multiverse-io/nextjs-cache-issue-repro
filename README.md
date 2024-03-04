@@ -8,14 +8,19 @@
 
 #### Console 1
 
+Start the app on localhost:3000:
+
 ```sh
 npm run dev
 ```
 
+The app has a `/test` page that makes two requests via `fetch` to
+`http://localhost:8080/test`.
+
 #### Console 2
 
 Start an HTTP server on localhost:8080 that echos any requests received. This
-server stands in for (e.g.) an external API called by the page rendering code.
+server stands in for an external API called by the page rendering code.
 
 ```sh
 node ./echo.js
@@ -33,7 +38,7 @@ On the first run of `curl`, with an empty cache, console 2 should show one
 GET request to `/foo` (indicating that the second request was cached).
 
 On any additional run of `curl http://localhost:3000/test`, no requests should
-be made to `/foo` (indicating again the use of the cache).
+be made to `/foo` (again indicating the use of the cache).
 
 ### 2. With cookies() call in page.jsx
 
