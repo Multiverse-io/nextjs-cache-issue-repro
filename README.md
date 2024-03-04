@@ -1,5 +1,6 @@
 # NextJS cache issue repro
 
+A NextJS app for reproducing a caching issue with `fetch`. Runs on
 `next@14.1.2-canary.3`.
 
 ## Instructions
