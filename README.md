@@ -96,7 +96,7 @@ The key logic is
   (see [here](https://github.com/vercel/next.js/blob/e9862a80f8102070dfc0c1226e11f0e97a90bf0a/docs/02-app/02-api-reference/04-functions/fetch.mdx#L16)),
   but section 3 above shows that `fetch` can behave differently when this option is set.
 * If a page accesses cookies during SSR, it seems counterintuitive that this
-  should turn of caching for any `fetch` calls that its rendering code makes to
+  should turn off caching for any `fetch` calls that its rendering code makes to
   any external APIs.
 
 ## How to clear the fetch cache
