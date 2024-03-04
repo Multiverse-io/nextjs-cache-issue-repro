@@ -21,8 +21,8 @@ cache unless the `cache: 'force-cache'` option is explicitly passed or the
   any external APIs.
 * The comment above
   [this LOC](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302)
-  seems to suggest that some unintended behavior might have snuck into the logic
-  at some point. (I have observed the same issue on 14.0 and 14.1 releases,
+  seems to suggest that some unintended behavior might have sneaked into the
+  logic at some point. (I have observed the same issue on 14.0 and 14.1 releases,
   for context.)
 
 ## Why does this happen?
@@ -49,12 +49,13 @@ The app has a `/test` page that makes two requests via `fetch` to
 
 #### Console 2
 
-Start an HTTP server on localhost:8080 that echos any requests received. This
-server stands in for an external API called by the page rendering code.
+Start an HTTP server on localhost:8080 that echos any requests received:
 
 ```sh
 node ./echo.js
 ```
+
+This server stands in for an external API called by the page rendering code.
 
 #### Console 3
 
