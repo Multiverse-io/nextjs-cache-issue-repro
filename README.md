@@ -61,12 +61,6 @@ Now in console 3 run `curl http://localhost:3000/test`.
 The cache is used (i.e. no GET requests are made to `/foo`), even with the call
 to `cookies()` in `page.jsx`.
 
-### How to clear the fetch cache
-
-```sh
-rm -rf .next/cache/fetch-cache/
-```
-
 ### 4. With `next: { revalidate: 999}` set
 
 With the call to `cookies()` still uncommented, replace the call to `fetch`
@@ -96,3 +90,11 @@ The key logic is
 * If a page accesses cookies during SSR, it seems counterintuitive that this
   should turn of caching for any `fetch` calls that its rendering code makes to
   any external APIs.
+
+## How to clear the fetch cache
+
+It can be useful to clear the fetch cache when testing behavior:
+
+```sh
+rm -rf .next/cache/fetch-cache/
+```
