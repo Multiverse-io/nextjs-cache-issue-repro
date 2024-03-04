@@ -67,7 +67,7 @@ Now in console 3 run `curl http://localhost:3000/test`.
 The cache is used (i.e. no GET requests are made to `/foo`), even with the call
 to `cookies()` in `page.jsx`.
 
-### 4. With `next: { revalidate: 999}` set
+### 4. With `next: { revalidate: 999 }` set
 
 With the call to `cookies()` still uncommented, replace the call to `fetch`
 in `app/test/page.jsx` with
