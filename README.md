@@ -98,6 +98,10 @@ The key logic is
 * If a page accesses cookies during SSR, it seems counterintuitive that this
   should turn off caching for any `fetch` calls that its rendering code makes to
   any external APIs.
+* The comment above
+  [this LOC](https://github.com/vercel/next.js/blob/c6e865bf6f034a06390424cddb026a8f7c53ea5b/packages/next/src/server/future/route-modules/app-route/module.ts#L302)
+  seems to suggest that some unintended behavior might intentionally have snuck
+  into the logic at some point.
 
 ## How to clear the fetch cache
 
