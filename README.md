@@ -12,6 +12,7 @@ A NextJS app for reproducing a caching issue with `fetch`. Runs on
 Start the app on localhost:3000:
 
 ```sh
+npm i
 npm run dev
 ```
 
