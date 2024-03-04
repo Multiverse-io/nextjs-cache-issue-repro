@@ -58,7 +58,7 @@ With the call to `cookies()` still uncommented, replace the call to `fetch`
 in `app/test/page.jsx` with
 
 ```javascript
-await fetch("http://localhost:8080/foo", { method: "GET", cache: `force-cache` })
+await fetch("http://localhost:8080/foo", { method: "GET", cache: 'force-cache' })
 ```
 
 Now in console 3 run `curl http://localhost:3000/test`.
