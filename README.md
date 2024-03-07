@@ -1,7 +1,7 @@
 **Update and explanation:**
 
 For caching this appears to be the documented behavior: see
-https://github.com/vercel/next.js/issues/62875**
+https://github.com/vercel/next.js/issues/62875
 
 That still leaves the question of why request memoization (as distinct from
 caching) doesn't stop the request being made twice for one page render. Turns
