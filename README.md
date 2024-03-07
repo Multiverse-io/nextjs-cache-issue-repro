@@ -1,4 +1,13 @@
-**Update: This appears to be the documented behavior, see https://github.com/vercel/next.js/issues/62875**
+**Update and explanation:**
+
+For caching this appears to be the documented behavior: see
+https://github.com/vercel/next.js/issues/62875**
+
+That still leaves the question of why request memoization (as distinct from
+caching) doesn't stop the request being made twice for one page render. Turns
+out that this is because request memoization doesn't occur in dev mode. So
+you'll see different behavior if you follow the instructions below but use
+`npm run build && npm start` instead of `npm run dev`.
 
 # NextJS cache issue repro
 
