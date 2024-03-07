@@ -1,3 +1,5 @@
+**Update: This appears to be the documented behavior, see https://github.com/vercel/next.js/issues/62875 **
+
 # NextJS cache issue repro
 
 A NextJS app for reproducing a caching issue with `fetch`. Runs on
