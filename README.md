@@ -1,4 +1,4 @@
-**Update: This appears to be the documented behavior, see https://github.com/vercel/next.js/issues/62875 **
+**Update: This appears to be the documented behavior, see https://github.com/vercel/next.js/issues/62875**
 
 # NextJS cache issue repro
 
